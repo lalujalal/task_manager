@@ -31,9 +31,20 @@ class TaskController extends GetxController {
   }
 
   void toggleTaskCompletion(int index) {
-    tasks[index].isCompleted = !tasks[index].isCompleted;
-    Hive.box<Task>('tasks').putAt(index, tasks[index]);
-    updateCompletedTasksCount();
+    Task task = tasks[index];
+    if (!task.isCompleted) {
+      // Simulate loading progress
+      task.loadingProgress = 0.0;
+      tasks[index] = task; // Update the task in the list
+
+      // Simulate a loading process
+      Future.delayed(Duration(seconds: 2), () {
+        task.isCompleted = true;
+        task.loadingProgress = 1.0; // Set loading progress to 100%
+        tasks[index] = task; // Update the task in the list
+        updateCompletedTasksCount();
+      });
+    }
   }
 
   void updateCompletedTasksCount() {
@@ -42,5 +53,12 @@ class TaskController extends GetxController {
 
   List<Task> get filteredTasks {
     return tasks.where((task) => !task.isCompleted).toList();
+  }
+
+  Map<String, List<Task>> get groupedTasks {
+    return {
+      for (var category in tasks.map((task) => task.category).toSet())
+        category: tasks.where((task) => task.category == category).toList(),
+    };
   }
 }
