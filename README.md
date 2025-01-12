@@ -30,7 +30,7 @@ To run this application, follow these steps:
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/yourusername/task_manager_app.git
+   git clone https://github.com/lalujalal/task_manager.git
    cd task_manager_app
    ```
 
@@ -46,8 +46,12 @@ To run this application, follow these steps:
 
 ## Screenshots
 
-![Task List](screenshots/task_list.png)
+![home](screenshots/home.png)
 ![Add Task](screenshots/add_task.png)
+![dark home](screenshots/home_dark.png)
+![dark home](screenshots/task_completion.png)
+![dark home](screenshots/deletion.png)
+
 
 ## Contributing
 
