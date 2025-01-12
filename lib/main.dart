@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:task_manager_app/controller/theme_controller.dart';
 import 'package:task_manager_app/core/get_init.dart';

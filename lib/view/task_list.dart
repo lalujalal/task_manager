@@ -1,7 +1,7 @@
 // lib/view/task_list_screen.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_animate/flutter_animate.dart'; // Import the animation package
 import '../controller/task_controller.dart';
 import '../model/task_model.dart';
 import '../controller/theme_controller.dart';
@@ -30,7 +30,7 @@ class TaskListScreen extends StatelessWidget {
                       : Icons.nightlight_round,
                 ),
                 onPressed: () {
-                  themeController.toggleTheme();
+                  themeController.toggleTheme(); // Toggle theme on button press
                 },
               );
             },
@@ -77,7 +77,7 @@ class TaskListScreen extends StatelessWidget {
                   .where((entry) => entry.value.isNotEmpty)
                   .toList();
 
-              // Check if there are any tasks
+              // Check if there are any tasks matching the search query
               if (searchQuery.isNotEmpty && filteredTasks.isEmpty) {
                 return Center(
                   child: Column(
@@ -107,13 +107,18 @@ class TaskListScreen extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(Icons.list, size: 100, color: Colors.grey),
+                      const Icon(Icons.list, size: 100, color: Colors.grey)
+                          .animate()
+                          .fadeIn()
+                          .scale()
+                          .then()
+                          .shake(),
                       const SizedBox(height: 16.0),
                       const Text(
                         'Your list is empty.',
                         style: TextStyle(fontSize: 18, color: Colors.grey),
                         textAlign: TextAlign.center,
-                      ),
+                      ).animate().fadeIn().moveY().then().moveY(),
                     ],
                   ),
                 );
@@ -132,11 +137,13 @@ class TaskListScreen extends StatelessWidget {
                       title: Text(
                         category,
                         style: const TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20), // Styled heading
                       ),
                       children: tasks.map((task) {
                         return Dismissible(
-                          key: Key('${task.title}-${task.hashCode}'),
+                          key: Key(
+                              '${task.title}-${task.hashCode}'), // Unique key
                           direction: DismissDirection.horizontal,
                           onDismissed: (direction) {
                             final index = tasks.indexOf(task);
@@ -158,7 +165,8 @@ class TaskListScreen extends StatelessWidget {
                                   action: SnackBarAction(
                                     label: 'Undo',
                                     onPressed: () {
-                                      taskController.addTask(task);
+                                      taskController
+                                          .addTask(task); // Undo deletion
                                     },
                                   ),
                                 ),
@@ -167,7 +175,7 @@ class TaskListScreen extends StatelessWidget {
 
                             // Check if the task list is empty and close the dropdown if it is
                             if (tasks.isEmpty) {
-                              Navigator.of(context).pop();
+                              Navigator.of(context).pop(); // Close the dropdown
                             }
                           },
                           background: Container(
@@ -187,17 +195,22 @@ class TaskListScreen extends StatelessWidget {
                             ),
                           ),
                           child: ListTile(
-                            title: Text(task.title).animate().fadeIn(),
+                            title: Text(task.title)
+                                .animate()
+                                .fadeIn(), // Animation for task title
                             subtitle: Text(
                               task.description,
                               maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
+                              overflow: TextOverflow
+                                  .ellipsis, // Truncate after one line
                             ),
                             trailing: task.isCompleted
                                 ? const Icon(Icons.check_circle,
-                                    color: Colors.green)
+                                    color: Colors
+                                        .green) // Show tick mark if completed
                                 : const Icon(Icons.hourglass_empty,
-                                    color: Colors.grey),
+                                    color: Colors
+                                        .grey), // Static symbol for incomplete tasks
                           ),
                         );
                       }).toList(),
@@ -215,11 +228,11 @@ class TaskListScreen extends StatelessWidget {
           const Text(
             'Add a new task',
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ).animate().fadeIn().moveY().then().moveY(),
+          ).animate().fadeIn().moveY().then().moveY(), // Animated caption
           const SizedBox(height: 8.0),
           FloatingActionButton(
             onPressed: () {
-              Get.to(() => AddTaskScreen());
+              Get.to(() => AddTaskScreen()); // Navigate to AddTaskScreen
             },
             child: const Icon(Icons.add),
             tooltip: 'Add Task',
