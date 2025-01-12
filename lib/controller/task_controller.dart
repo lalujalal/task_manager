@@ -30,21 +30,13 @@ class TaskController extends GetxController {
     updateCompletedTasksCount();
   }
 
-  void toggleTaskCompletion(int index) {
+  void markTaskAsCompleted(int index) {
     Task task = tasks[index];
-    if (!task.isCompleted) {
-      // Simulate loading progress
-      task.loadingProgress = 0.0;
-      tasks[index] = task; // Update the task in the list
-
-      // Simulate a loading process
-      Future.delayed(Duration(seconds: 2), () {
-        task.isCompleted = true;
-        task.loadingProgress = 1.0; // Set loading progress to 100%
-        tasks[index] = task; // Update the task in the list
-        updateCompletedTasksCount();
-      });
-    }
+    task.isCompleted = true; // Mark the task as completed
+    tasks.removeAt(index); // Remove from current position
+    tasks.add(task); // Add to the end of the list
+    Hive.box<Task>('tasks').putAt(index, task); // Update the task in Hive
+    updateCompletedTasksCount();
   }
 
   void updateCompletedTasksCount() {
